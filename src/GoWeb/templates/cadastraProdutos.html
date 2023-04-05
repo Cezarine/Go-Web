@@ -1,19 +1,7 @@
 {{define "cadastraProdutos"}}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <title>Alura loja</title>
-</head>
+{{template "_head"}}
 <nav class="navbar navbar-light bg-light mb-4">
-    <a class="navbar-brand" href="/">Alura Loja</a>
+    <a class="navbar-brand" href="/" style="font-size: 2rem;">Cadastro de Produtos</a>
 </nav>
 <div class="container">
 
@@ -29,7 +17,7 @@
                 <div class="col-sm-8">
                     <div class="form-group">
                         <label for="nome">Nome:</label>
-                        <input type="text" name="prod_descricao" class="form-control">
+                        <input type="text" name="prod_descricao" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -37,7 +25,7 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="preco">Preço:</label>
-                        <input type="number" name="prod_preco" class="form-control" step="0.01">
+                        <input type="number" name="prod_preco" class="form-control" step="0.01" value="0.00">
                     </div>
                 </div>
             </div>
@@ -46,7 +34,7 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="quantidade">Quantidade:</label>
-                        <input type="number" name="prod_quantidade" class="form-control">
+                        <input type="number" name="prod_quantidade" class="form-control" value="0.00">
                     </div>
                 </div>
             </div>
