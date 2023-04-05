@@ -43,3 +43,33 @@ func Delete(res http.ResponseWriter, req *http.Request) {
 
 	http.Redirect(res, req, "/", http.StatusMovedPermanently)
 }
+
+func Edit(res http.ResponseWriter, req *http.Request) {
+	vCodigo := req.URL.Query().Get("id")
+	vProduto := model.GetProduto(vCodigo)
+	temp.ExecuteTemplate(res, "edit", vProduto)
+}
+
+func Update(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		vProduto := model.Produto{}
+		var err error
+
+		vProduto.Codigo, err = strconv.Atoi(req.FormValue("cod_produto")) // Todos esses são os "name" dos campo do html editaProdutos
+		if err != nil {
+			log.Fatalln("Error converting product code:", err.Error())
+		}
+		vProduto.Descricao = req.FormValue("prod_descricao")
+		vProduto.Preco, err = strconv.ParseFloat(req.FormValue("prod_preco"), 64)
+		if err != nil {
+			log.Fatalln("Error converting product price")
+		}
+		vProduto.Quantidade, err = strconv.ParseFloat(req.FormValue("prod_quantidade"), 64)
+		if err != nil {
+			log.Fatalln("Error converting product quantity")
+		}
+
+		model.UpdateProduct(vProduto)
+	}
+	http.Redirect(res, req, "/", http.StatusMovedPermanently)
+}

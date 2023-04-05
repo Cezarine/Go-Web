@@ -1,0 +1,52 @@
+{{define "edit"}}
+
+{{template "_head"}}
+<nav class="navbar navbar-light bg-light mb-4">
+    <a class="navbar-brand" href="/" style="font-size: 2rem;">Cadastro de Produtos</a>
+</nav>
+<div class="container">
+    <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-5">Editção do Produto</h1>
+                <p class="lead">{{.Codigo}} - {{.Descricao}}</p>
+            </div>
+        </div>
+        <form method="POST" action="update">
+            <input type="hidden" name="cod_produto" value="{{.Codigo}}">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" name="prod_descricao" class="form-control" value="{{.Descricao}}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="preco">Preço:</label>
+                        <input type="number" name="prod_preco" class="form-control" step="0.01" value="{{.Preco}}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade:</label>
+                        <input type="number" name="prod_quantidade" class="form-control" value="{{.Quantidade}}">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" value="salvar" class="btn btn-success">Salvar</button>
+            <a class="btn btn-info" href="/">Voltar</a>
+        </form>
+    </body>
+
+</html>
+</div>
+</body>
+</html>
+
+{{end}}

@@ -17,7 +17,7 @@ func GetProdutos() []Produto {
 	produtos := []Produto{}
 	p := Produto{}
 
-	selectProducts, err := db.Query("SELECT * FROM produtos WHERE prod_inativo = 0")
+	selectProducts, err := db.Query("SELECT * FROM produtos WHERE prod_inativo = 0 ORDER BY cod_produto ASC")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -48,7 +48,7 @@ func CreateNewProduct(pDescricao string, pPreco, pQuantidade float64) {
 	db := db.ConnectDatabase()
 	insertProducts, err := db.Prepare("insert into produtos (prod_descricao, prod_preco, prod_quantidade) values(?, ?, ?)")
 	if err != nil {
-		panic(err.Error())
+		log.Fatalln("Erro ao inserir produto novo", err.Error())
 	}
 	insertProducts.Exec(pDescricao, pPreco, pQuantidade)
 	defer db.Close()
@@ -63,5 +63,42 @@ func DeleteProduct(pCodProduto int) {
 	}
 
 	delete.Exec(pCodProduto)
+	defer db.Close()
+}
+
+func GetProduto(pCodProduto string) Produto {
+	var vCod_produto, vProd_inativo int
+	var vProd_descricao string
+	var vProd_preco, vProd_quantidade float64
+	vProduct := Produto{}
+	db := db.ConnectDatabase()
+
+	vSelectProduct, err := db.Query("SELECT * FROM produtos WHERE cod_produto = ?", pCodProduto)
+	if err != nil {
+		log.Fatalln("Product selection error:", err.Error())
+	}
+	defer db.Close()
+
+	for vSelectProduct.Next() {
+		err := vSelectProduct.Scan(&vCod_produto, &vProd_descricao, &vProd_preco, &vProd_quantidade, &vProd_inativo)
+		if err != nil {
+			log.Fatalln("Error fetching SELECT fields", err.Error())
+		}
+		vProduct.Codigo = vCod_produto
+		vProduct.Descricao = vProd_descricao
+		vProduct.Preco = vProd_preco
+		vProduct.Quantidade = vProd_quantidade
+
+	}
+	return vProduct
+}
+
+func UpdateProduct(pProduto Produto) {
+	db := db.ConnectDatabase()
+	vUpdateProduct, err := db.Prepare("UPDATE produtos SET prod_descricao=?, prod_preco=?, prod_quantidade=? WHERE cod_produto=?")
+	if err != err {
+		log.Fatalln("Error updating product", pProduto.Descricao, ":", err.Error())
+	}
+	vUpdateProduct.Exec(pProduto.Descricao, pProduto.Preco, pProduto.Quantidade, pProduto.Codigo)
 	defer db.Close()
 }
